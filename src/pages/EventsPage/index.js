@@ -1,26 +1,52 @@
 import React, { useState, useMemo } from 'react'
 import api from '../../services/api'
-import { Container, Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import { Container, Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap'
 import cameraIcon from '../../assets/camera.png'
 import './events.css'
 
 export default function EventsPage() {
-    const user_id = localStorage.getItem('user')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [thumbnail, setThumbnail] = useState(null)
     const [category, setCategory] = useState('')
     const [date, setDate] = useState('')
+    const [errorMessage, setErrorMessage] = useState(false)
 
     const preview = useMemo(() => {
         return thumbnail ? URL.createObjectURL(thumbnail) : null
     }, [thumbnail])
 
-    console.log(title, description, price, category)
+    const submitHandler = async (evt) => {
+        evt.preventDefault()
 
-    const submitHandler = () => {
-        return ""
+        const user_id = localStorage.getItem('user')
+        const eventData = new FormData()
+
+        eventData.append('thumbnail', thumbnail)
+        eventData.append('category', category)
+        eventData.append('title', title)
+        eventData.append('price', price)
+        eventData.append('description', description)
+        eventData.append('date', date)
+
+        try {
+            if (title !== "" && description !== "" && price !== "" && category !== "" && date !== "" && thumbnail !== null) {
+                await api.post('/event', eventData, { headers: { user_id } })
+                console.log(user_id, title, description, price, category, date)
+
+            } else {
+                setErrorMessage(true)
+                setTimeout(() => {
+                    setErrorMessage(false)
+                }, 2000);
+
+                console.log("Missing required data!")
+            }
+        } catch (error) {
+            Promise.reject(error)
+            console.log(error)
+        }
     }
 
     return (
@@ -48,7 +74,7 @@ export default function EventsPage() {
                 </FormGroup>
                 <FormGroup>
                     <Label>Price: </Label>
-                    <Input id="price" type="text" value={price} placeholder={'Event price'} onChange={(evt) => setPrice(evt.target.value)} />
+                    <Input id="price" type="number" value={price} placeholder={'Event price Rp0.0'} onChange={(evt) => setPrice(evt.target.value)} />
                 </FormGroup>
                 <FormGroup>
                     <Label>Date: </Label>
@@ -58,6 +84,9 @@ export default function EventsPage() {
                     Create Event
                 </Button>
             </Form>
+            {errorMessage ? (
+                <Alert className="event-validation" color="danger">Missing required information</Alert>
+            ) : ""}
         </Container>
     )
 }

@@ -1,7 +1,7 @@
 label #thumbnail {
     margin-bottom: 20px;
     border: 1px;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
     display: flex;
@@ -20,4 +20,8 @@ label #thumbnail .has-thumbnail {
 
 label #thumbnail .has-thumbnail img {
     display: none 
+}
+
+.container > .event-validation {
+    margin-top: 12px
 }
