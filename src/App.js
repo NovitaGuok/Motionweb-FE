@@ -7,7 +7,9 @@ function App() {
   return (
     <Container>
       <h1>Mobile Innovation</h1>
-      <Routes></Routes>
+      <div className="content">
+        <Routes />
+      </div>
     </Container>
   );
 }
