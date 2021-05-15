@@ -54,8 +54,8 @@ export default function EventsPage({ history }) {
         <Container>
             <h1>Create your Event</h1>
             <Form onSubmit={submitHandler}>
-                <div className="input-group">x
-                <FormGroup>
+                <div className="input-group">
+                    <FormGroup>
                         <FormGroup>
                             <Label>Upload Image: </Label>
                             <Label id="thumbnail" style={{ backgroundImage: `url(${preview})` }} className={thumbnail ? 'has-thumbnail' : ''} >
