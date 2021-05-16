@@ -23,7 +23,18 @@ ul.events-list li header {
 ul.events-list li strong {
     margin-top: 12px;
     font-size: 24px;
-    color: #4444;
+    color: #000000;
+}
+
+ul.events-list header div {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+div.filter-panel {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
 }
 
 @media(max-width:768px) {
